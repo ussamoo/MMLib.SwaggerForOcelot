@@ -12,6 +12,8 @@
     <PackageTags>swagger;documentation;ocelot</PackageTags>
     <PackageReleaseNotes />
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <AssemblyVersion>1.0.1.0</AssemblyVersion>
+    <FileVersion>1.0.1.0</FileVersion>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <Copyright>@MMLib</Copyright>
     <LangVersion>7.3</LangVersion>
