@@ -17,19 +17,6 @@ namespace Microsoft.AspNetCore.Builder
         /// </summary>
         /// <param name="app">The application builder.</param>
         /// <param name="configuration">The configuration.</param>
-        /// <returns>
-        /// <see cref="IApplicationBuilder"/>.
-        /// </returns>
-        public static IApplicationBuilder UseSwaggerForOcelotUI(
-           this IApplicationBuilder app,
-           IConfiguration configuration)
-            => app.UseSwaggerForOcelotUI(configuration, null);
-
-        /// <summary>
-        /// Add Swagger generator for downstream services and UI into application pipeline.
-        /// </summary>
-        /// <param name="app">The application builder.</param>
-        /// <param name="configuration">The configuration.</param>
         /// <param name="setupAction">Setup <see cref="SwaggerForOcelotUIOptions"/></param>
         /// <returns>
         /// <see cref="IApplicationBuilder"/>.
@@ -43,11 +30,10 @@ namespace Microsoft.AspNetCore.Builder
             setupAction?.Invoke(options);
 
             UseSwaggerForOcelot(app, options);
-
+           
             app.UseSwaggerUI(c =>
             {
                 InitUIOption(c, options);
-
                 var endPoints = GetConfugration(configuration);
                 AddSwaggerEndPoints(c, endPoints, options.EndPointBasePath);
             });
@@ -62,7 +48,10 @@ namespace Microsoft.AspNetCore.Builder
         {
             foreach (var endPoint in endPoints)
             {
-                c.SwaggerEndpoint($"{basePath}/{endPoint.KeyToPath}", endPoint.Name);
+                foreach (var config in endPoint.Config)
+                {
+                    c.SwaggerEndpoint($"{basePath}/{config.Version}/{endPoint.KeyToPath}", $"{config.Name} - {config.Version}");
+                }             
             }
         }
 
